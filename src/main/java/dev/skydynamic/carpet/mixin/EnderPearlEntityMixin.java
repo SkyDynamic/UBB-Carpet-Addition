@@ -8,7 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ChunkLevelType;
+import net.minecraft.server.world.ChunkHolder;
 import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.server.world.ServerWorld;
@@ -44,7 +44,7 @@ public abstract class EnderPearlEntityMixin extends ThrownItemEntity {
     }
 
     private static boolean isEntityTickingChunk(WorldChunk chunk) {
-        return (chunk != null && chunk.getLevelType() == ChunkLevelType.ENTITY_TICKING);
+        return (chunk != null && chunk.getLevelType() == ChunkHolder.LevelType.ENTITY_TICKING);
     }
 
     private static int getHighestMotionBlockingY(NbtCompound nbtCompound) {

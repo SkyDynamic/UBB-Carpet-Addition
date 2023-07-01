@@ -6,7 +6,6 @@ import com.mojang.datafixers.util.Pair;
 import dev.skydynamic.carpet.api.Function;
 import dev.skydynamic.carpet.api.tools.text.ComponentTranslate;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

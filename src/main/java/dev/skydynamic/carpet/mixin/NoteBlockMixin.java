@@ -9,7 +9,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 
 import org.spongepowered.asm.mixin.Mixin;
