@@ -27,8 +27,3 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build
-      - name: Publish artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: Artifacts for ${{ github.sha }}
-          path: build/libs/
