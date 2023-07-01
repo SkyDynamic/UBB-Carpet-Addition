@@ -27,3 +27,8 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build
+      - name: Upload JAR file
+        uses: actions/upload-artifact@v2
+        with:
+          name: Carpet SkyDynamic Addition
+          path: build/libs/
