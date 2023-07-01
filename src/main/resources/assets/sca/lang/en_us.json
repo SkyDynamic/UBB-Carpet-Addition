@@ -1,0 +1,26 @@
+{
+  "carpet.category.SCA": "SCA",
+
+  "carpet.rule.scheduledRandomTickCactus.name": "scheduledRandomTickCactus",
+  "carpet.rule.scheduledRandomTickCactus.desc": "Make cactus accepts scheduled tick as random tick",
+
+  "carpet.rule.noteBlockChunkLoader.name": "noteBlockChunkLoader",
+  "carpet.rule.noteBlockChunkLoader.desc": "Load nearby 3x3 chunks for 15 seconds when a note block is triggered",
+  "carpet.rule.noteBlockChunkLoader.extra.0": "[bone_block] - When bone_block is on the note_block",
+  "carpet.rule.noteBlockChunkLoader.extra.1": "[bedrock] - When wither_skeleton_skull is on the note_block, either placed on the note block or hanging on the wall",
+  "carpet.rule.noteBlockChunkLoader.extra.2": "[all] - Only note_block",
+  "carpet.rule.noteBlockChunkLoader.extra.3": "[OFF] - Disable the rule",
+
+  "carpet.rule.pistonBlockChunkLoader.name": "活塞头区块加载",
+  "carpet.rule.pistonBlockChunkLoader.desc": "活塞或黏性活塞被激活且能正常伸出时以活塞头将到达的区块为中心加载3x3区块持续15s",
+  "carpet.rule.pistonBlockChunkLoader.extra.0": "[bone_block] - When bone_block is on the piston",
+  "carpet.rule.pistonBlockChunkLoader.extra.1": "[bedrock] - When bedrock is under the piston",
+  "carpet.rule.pistonBlockChunkLoader.extra.2": "[all] - When bone_block is on the piston or bedrock is under the piston",
+  "carpet.rule.pistonBlockChunkLoader.extra.3": "[OFF] - Disable the rule",
+
+  "carpet.rule.pearlTickets.name": "pearlTickets",
+  "carpet.rule.pearlTickets.desc": "This mod allows Ender Pearl entity to selectively load chunks, so your Ender Pearl won't disappear in unloaded areas",
+
+  "carpet.rule.softDeepslate.name": "softDeepslate",
+  "carpet.rule.softDeepslate.desc": "Change the hardness of deepslate to stone"
+}
