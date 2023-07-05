@@ -1,6 +1,7 @@
 package dev.skydynamic.carpet.mixin;
 
 import dev.skydynamic.carpet.ScaSetting;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CactusBlock;
 import net.minecraft.server.world.ServerWorld;
@@ -11,7 +12,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.minecraft.util.math.random.Random;
+
+import java.util.Random;
 
 @Mixin(CactusBlock.class)
 public abstract class CactusBlockMixin{

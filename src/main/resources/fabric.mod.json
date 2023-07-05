@@ -23,13 +23,8 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.14.21",
-		"minecraft": "1.20.x",
-		"carpet": ">=1.4.112+v230608",
+		"minecraft": "1.18.x",
+		"carpet": ">=1.4.69+v220331",
 		"fabric-api": "*"
-	},
-	"custom": {
-		"modmenu": {
-		  "parent": "carpet"
-		}
 	}
 }

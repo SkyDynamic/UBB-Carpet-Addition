@@ -22,7 +22,7 @@ import java.util.Objects;
 public abstract class NoteBlockMixin {
     @Inject(at = @At("HEAD"), method = "playNote")
     private void playNoteMixin(
-            Entity entity, BlockState blockState, World world, BlockPos pos, CallbackInfo info
+            World world, BlockPos pos, CallbackInfo info
     ) {
         if (Objects.equals(ScaSetting.noteBlockChunkLoader, "note_block") && !world.isClient) {
             ChunkPos chunkPos = new ChunkPos(pos);
