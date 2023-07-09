@@ -22,7 +22,7 @@ public class ScaServer implements CarpetExtension, ModInitializer {
     public static final List<Pair<Long, Function>> planFunction = new ArrayList<>();
 
     public String get_version() {
-        return "1.0.0";
+        return "1.0.4";
     }
 
     public static void loadExtension() {
