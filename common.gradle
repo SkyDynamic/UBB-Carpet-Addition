@@ -16,6 +16,12 @@ repositories {
 	maven {
 		url 'https://jitpack.io'
 	}
+	maven {
+		url 'https://www.cursemaven.com'
+	}
+	maven {
+        url 'https://maven.aliyun.com/nexus/content/groups/public'
+    }
 }
 
 // https://github.com/FabricMC/fabric-loader/issues/783

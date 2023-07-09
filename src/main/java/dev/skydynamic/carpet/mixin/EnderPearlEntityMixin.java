@@ -1,9 +1,7 @@
 package dev.skydynamic.carpet.mixin;
 
-//carpet-setting
 import dev.skydynamic.carpet.ScaSetting;
 
-// Minecraft
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
@@ -40,7 +38,6 @@ import java.io.IOException;
 
 @Mixin(EnderPearlEntity.class)
 public abstract class EnderPearlEntityMixin extends ThrownItemEntity {
-
     private static final ChunkTicketType<ChunkPos> ENDER_PEARL_TICKET =
             ChunkTicketType.create("ender_pearl", Comparator.comparingLong(ChunkPos::toLong), 2);
 
@@ -53,11 +50,14 @@ public abstract class EnderPearlEntityMixin extends ThrownItemEntity {
     }
 
     private static boolean isEntityTickingChunk(WorldChunk chunk) {
-        //#if MC>=12000
-        //$$ return (chunk != null && chunk.getLevelType() == ChunkLevelType.ENTITY_TICKING);
-        //#else
-        return (chunk != null && chunk.getLevelType() == ChunkHolder.LevelType.ENTITY_TICKING);
-        //#endif
+        return (
+                //#if MC>=12000
+                //$$ chunk != null && chunk.getLevelType() == ChunkLevelType.ENTITY_TICKING
+                //#else
+                chunk != null && chunk.getLevelType() == ChunkHolder.LevelType.ENTITY_TICKING
+                //#endif
+
+        );
     }
 
     private static int getHighestMotionBlockingY(NbtCompound nbtCompound) {
@@ -93,16 +93,15 @@ public abstract class EnderPearlEntityMixin extends ThrownItemEntity {
             Vec3d nextPos = this.realPos.add(this.realVelocity);
             Vec3d nextVelocity = this.realVelocity.multiply(0.99F).subtract(0, this.getGravity(), 0);
 
-//            System.out.println("curr: " + currPos + currVelocity);
-//            System.out.println("real: " + this.realPos + this.realVelocity);
-//            System.out.println("next: " + nextPos + nextVelocity);
-
             // chunkPos to temporarily store pearl and next chunkPos to check chunk loading
-            ChunkPos currChunkPos = new ChunkPos(new BlockPos((int) currPos.x, (int) currPos.y, (int) currPos.z));
-            ChunkPos nextChunkPos = new ChunkPos(new BlockPos((int) nextPos.x, (int) nextPos.y, (int) nextPos.z));
 
-//            System.out.printf("currChunkPos: (%d, %d)    realChunkPos: (%d, %d)    nextChunkPos: (%d, %d)\n",
-//                 currChunkPos.x, currChunkPos.z, realChunkPos.x, realChunkPos.z, nextChunkPos.x, nextChunkPos.z);
+            //#if MC>=11900
+            //$$ ChunkPos currChunkPos = new ChunkPos(new BlockPos((int) currPos.x, (int) currPos.y, (int) currPos.z));
+            //$$ ChunkPos nextChunkPos = new ChunkPos(new BlockPos((int) nextPos.x, (int) nextPos.y, (int) nextPos.z));
+            //#else
+            ChunkPos currChunkPos = new ChunkPos(new BlockPos(currPos));
+            ChunkPos nextChunkPos = new ChunkPos(new BlockPos(nextPos));
+            //#endif
 
             // chunk loading
             ServerChunkManager serverChunkManager = ((ServerWorld) world).getChunkManager();
@@ -112,24 +111,20 @@ public abstract class EnderPearlEntityMixin extends ThrownItemEntity {
                     highestMotionBlockingY = Integer.max(
                             //#if MC>=11900
                             //$$ getHighestMotionBlockingY(serverChunkManager.threadedAnvilChunkStorage.getNbt(currChunkPos).get().orElse(null)),
-                            //$$ getHighestMotionBlockingY(serverChunkManager.threadedAnvilChunkStorage.getNbt(nextChunkPos).get().orElse(null))
+                            //$$ getHighestMotionBlockingY(serverChunkManager.threadedAnvilChunkStorage.getNbt(nextChunkPos).get().orElse(null)));
                             //#else
                             getHighestMotionBlockingY(serverChunkManager.threadedAnvilChunkStorage.getNbt(currChunkPos)),
-                            getHighestMotionBlockingY(serverChunkManager.threadedAnvilChunkStorage.getNbt(nextChunkPos))
+                            getHighestMotionBlockingY(serverChunkManager.threadedAnvilChunkStorage.getNbt(nextChunkPos)));
                             //#endif
-                    );
                 }
                 //#if MC>=11900
-                //$$ catch (InterruptedException | ExecutionException e) {throw new RuntimeException("NbtCompound exception");}
+                //$$ catch (InterruptedException | ExecutionException e) { throw new RuntimeException("NbtCompound exception"); }
                 //#else
-                catch (IOException e) {System.out.println("getNbt IOException");e.printStackTrace();}
+                catch (IOException e) { System.out.println("getNbt IOException"); e.printStackTrace(); }
                 //#endif
-
-//                System.out.println(this.realPos.y + " " + highestMotionBlockingY + " " + nextPos.y);
 
                 // compatible with none-zero minimum y value dimension
                 DimensionType worldDimension = world.getDimension();
-
                 //#if MC>=11900
                 //$$ highestMotionBlockingY += worldDimension.minY();
                 //#else
