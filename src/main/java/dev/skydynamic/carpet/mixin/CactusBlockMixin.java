@@ -11,7 +11,12 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.minecraft.util.math.random.Random;
+
+//#if MC>=11900
+//$$import net.minecraft.util.math.random.Random;
+//#else
+import java.util.Random;
+//#endif
 
 @Mixin(CactusBlock.class)
 public abstract class CactusBlockMixin{

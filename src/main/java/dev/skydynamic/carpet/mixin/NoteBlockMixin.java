@@ -9,8 +9,10 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
+//#if MC>=11900
+//$$ import net.minecraft.block.BlockState;
+//$$ import net.minecraft.entity.Entity;
+//#endif
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,8 +25,13 @@ import java.util.Objects;
 public abstract class NoteBlockMixin {
     @Inject(at = @At("HEAD"), method = "playNote")
     private void playNoteMixin(
-            Entity entity, BlockState blockState, World world, BlockPos pos, CallbackInfo info
-    ) {
+            //#if MC>=11900
+            //$$ Entity entity,
+            //#endif
+            //#if MC>=11903
+            //$$ BlockState blockState,
+            //#endif
+            World world, BlockPos pos, CallbackInfo info) {
         if (Objects.equals(ScaSetting.noteBlockChunkLoader, "note_block") && !world.isClient) {
             ChunkPos chunkPos = new ChunkPos(pos);
             ((ServerWorld) world).getChunkManager().addTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);

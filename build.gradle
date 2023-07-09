@@ -1,79 +1,38 @@
 plugins {
-	id 'fabric-loom' version '1.2-SNAPSHOT'
+	id 'fabric-loom' version '1.2-SNAPSHOT' apply false
 	id 'maven-publish'
+	id 'com.replaymod.preprocess' version 'SNAPSHOT'
 }
 
-repositories {
-	maven {
-		url 'https://masa.dy.fi/maven'
+
+preprocess {
+	def mc118 = createNode('1.18.2', 1_18_02, 'yarn')
+	def mc119 = createNode('1.19.4', 1_19_04, 'yarn')
+	def mc1200 = createNode('1.20', 1_20_00, 'yarn')
+
+	mc118.link(mc119, file('versions/mapping-1.18-1.19.txt'))
+	mc119.link(mc1200, file('versions/mapping-1.19-1.20.txt'))
+}
+
+tasks.register('buildAndGather') {
+	subprojects {
+		dependsOn project.name + ':build'
 	}
-}
-
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = project.archives_base_name
-version = project.minecraft_version+'-'+project.mod_version
-group = project.maven_group
-
-loom {
-}
-
-dependencies {
-	//to change the versions see the gradle.properties file
-	// https://mvnrepository.com/artifact/org.yaml/snakeyaml
-	implementation 'org.yaml:snakeyaml:2.0'
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "carpet:fabric-carpet:${project.minecraft_version}-${project.carpet_core_version}"
-
-	// Fabric API. This is technically optional, but you probably want it anyway.
-	// modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-	// You may need to force-disable transitiveness on them.
-}
-
-processResources {
-	inputs.property "version", project.version
-
-	filesMatching("fabric.mod.json") {
-		expand "version": project.mod_version
-	}
-}
-
-// ensure that the encoding is set to UTF-8, no matter what the system default is
-// this fixes some edge cases with special characters not displaying correctly
-// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
-tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
-
-	it.options.release = 17
-}
-
-java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
-	withSourcesJar()
-}
-
-jar {
-	from "LICENSE"
-}
-
-// configure the maven publication
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
+	doFirst {
+		println 'Gathering builds'
+		delete fileTree(project.projectDir.toPath().resolve('build/libs')) {
+			include '*'
 		}
-	}
-
-	// select the repositories you want to publish to
-	repositories {
-		// uncomment to publish to the local maven
-		// mavenLocal()
+		copy {
+			subprojects {
+				def libDir = project.projectDir.toPath().resolve('build/libs')
+				from(libDir) {
+					include '*.jar'
+					exclude '*-dev.jar', '*-sources.jar'
+				}
+				into 'build/libs/'
+				duplicatesStrategy DuplicatesStrategy.INCLUDE
+			}
+		}
 	}
 }
