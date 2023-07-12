@@ -73,4 +73,4 @@
 
 - 参考选项: `false` , `true`
 
-- 分类: `AMS` , `FEATURE` , `SURVIVAL`
+- 分类: `SCA` , `FEATURE` , `SURVIVAL`
