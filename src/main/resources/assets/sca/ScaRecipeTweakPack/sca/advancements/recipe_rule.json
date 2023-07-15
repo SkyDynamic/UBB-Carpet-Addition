@@ -1,0 +1,13 @@
+{
+  "parent": "sca:root",
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "rewards": {
+    "recipes": [
+
+    ]
+  }
+}

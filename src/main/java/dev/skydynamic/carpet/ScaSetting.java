@@ -1,5 +1,6 @@
 package dev.skydynamic.carpet;
 
+import dev.skydynamic.carpet.utils.recipes.CraftingRule;
 import static dev.skydynamic.carpet.settings.ScaRuleCategory.*;
 //#if MC>=11900
 //$$ import carpet.api.settings.Rule;
@@ -10,55 +11,66 @@ import carpet.settings.Rule;
 public class ScaSetting{
 
     @Rule(
-        //#if MC>=11900
-        //$$ categories = {SCA, FEATURE, SURVIVAL}
-        //#else
-        category = {SCA, FEATURE, SURVIVAL},
-        desc = "Make cactus accepts scheduled tick as random tick"
-        //#endif
+            //#if MC>=11900
+            //$$ categories = {SCA, FEATURE, SURVIVAL}
+            //#else
+            category = {SCA, FEATURE, SURVIVAL},
+            desc = "Make cactus accepts scheduled tick as random tick"
+            //#endif
         )
     public static boolean scheduledRandomTickCactus = false;
 
     @Rule(
-        options = {"bone_block", "wither_skeleton_skull", "note_block", "OFF"},
-        //#if MC>=11900
-        //$$ categories = {SCA, SCA_CHUNKLOADER}
-        //#else
-        category = {SCA, SCA_CHUNKLOADER},
-        desc = "Load nearby 3x3 chunks for 15 seconds when a note block is triggered"
-        //#endif
+            options = {"bone_block", "wither_skeleton_skull", "note_block", "OFF"},
+            //#if MC>=11900
+            //$$ categories = {SCA, SCA_CHUNKLOADER}
+            //#else
+            category = {SCA, SCA_CHUNKLOADER},
+            desc = "Load nearby 3x3 chunks for 15 seconds when a note block is triggered"
+            //#endif
         )
     public static String noteBlockChunkLoader = "OFF";
 
     @Rule(
-        options = {"bone_block", "bedrock", "all", "OFF"},
-        //#if MC>=11900
-        //$$ categories = {SCA, FEATURE, SCA_CHUNKLOADER}
-        //#else
-        category = {SCA, FEATURE, SCA_CHUNKLOADER},
-        desc = "Load nearby 3x3 chunks for 15 seconds when a piston is triggered (Centered on the piston head)"
-        //#endif
+            options = {"bone_block", "bedrock", "all", "OFF"},
+            //#if MC>=11900
+            //$$ categories = {SCA, FEATURE, SCA_CHUNKLOADER}
+            //#else
+            category = {SCA, FEATURE, SCA_CHUNKLOADER},
+            desc = "Load nearby 3x3 chunks for 15 seconds when a piston is triggered (Centered on the piston head)"
+            //#endif
         )
     public static String pistonBlockChunkLoader = "OFF";
 
     @Rule(
-        //#if MC>=11900
-        //$$ categories = {SCA, FEATURE, SCA_CHUNKLOADER}
-        //#else
-        category = {SCA, FEATURE, SCA_CHUNKLOADER},
-        desc = "This mod allows Ender Pearl entity to selectively load chunks, so your Ender Pearl won't disappear in unloaded areas"
-        //#endif
+            //#if MC>=11900
+            //$$ categories = {SCA, FEATURE, SCA_CHUNKLOADER}
+            //#else
+            category = {SCA, FEATURE, SCA_CHUNKLOADER},
+            desc = "This mod allows Ender Pearl entity to selectively load chunks, so your Ender Pearl won't disappear in unloaded areas"
+            //#endif
     )
     public static boolean pearlTickets = false;
 
     @Rule(
-        //#if MC>=11900
-        //$$ categories = {SCA, FEATURE, SURVIVAL}
-        //#else
-        category = {SCA, FEATURE, SURVIVAL},
-        desc = "Change the hardness of deepslate to stone"
-        //#endif
+            //#if MC>=11900
+            //$$ categories = {SCA, FEATURE, SURVIVAL}
+            //#else
+            category = {SCA, FEATURE, SURVIVAL},
+            desc = "Change the hardness of deepslate to stone"
+            //#endif
         )
     public static boolean softDeepslate = false;
+
+    @Rule(
+            //#if MC>=11900
+            //$$ categories = {SCA, CRAFTING, SURVIVAL}
+            //#else
+            category = {SCA, CRAFTING, SURVIVAL},
+            desc = "Can crafting Nongfu Spring"
+            //#endif
+    )
+    @CraftingRule(recipes = "nongfu_spring.json")
+    public  static  boolean craftingNongfuSpring = false;
 
 }

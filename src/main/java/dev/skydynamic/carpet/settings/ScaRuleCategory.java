@@ -3,6 +3,8 @@ package dev.skydynamic.carpet.settings;
 public class ScaRuleCategory {
     public static final String SCA = "SCA";
     public static final String SCA_CHUNKLOADER = "SCA_chunkLoader";
+
+    public static final String CRAFTING = "Crafting";
 //==================================================================
     public static final String BUGFIX = "bugfix";
     public static final String SURVIVAL = "survival";

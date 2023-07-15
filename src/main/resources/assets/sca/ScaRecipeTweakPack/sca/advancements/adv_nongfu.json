@@ -1,0 +1,13 @@
+{
+    "criteria": {
+      "Power": {
+        "trigger": "minecraft:recipe_unlocked",
+        "conditions": {
+          "recipe": "sca:nongfu_spring"
+          }
+      }
+    },
+    "rewards": {
+      "function": "sca:give_nongfu_spring"
+    }
+}

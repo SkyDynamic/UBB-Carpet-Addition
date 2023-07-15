@@ -22,5 +22,8 @@
   "carpet.rule.pearlTickets.desc": "This mod allows Ender Pearl entity to selectively load chunks, so your Ender Pearl won't disappear in unloaded areas",
 
   "carpet.rule.softDeepslate.name": "softDeepslate",
-  "carpet.rule.softDeepslate.desc": "Change the hardness of deepslate to stone"
+  "carpet.rule.softDeepslate.desc": "Change the hardness of deepslate to stone",
+
+  "carpet.rule.craftingNongfuSpring.name": "NongfuSpring",
+  "carpet.rule.craftingNongfuSpring.desc": "Allowed to use [Potion, Iron, NetherStar] to crafting NongfuSpring. You can get 2 minutes [Haste II] and [Speed I] effects when drink it"
 }

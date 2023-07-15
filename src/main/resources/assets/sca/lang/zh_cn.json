@@ -22,5 +22,8 @@
   "carpet.rule.pearlTickets.desc": "让珍珠自行加载区块",
 
   "carpet.rule.softDeepslate.name": "易碎深板岩",
-  "carpet.rule.softDeepslate.desc": "改变深板岩的硬度使其和普通石头一致"
+  "carpet.rule.softDeepslate.desc": "改变深板岩的硬度使其和普通石头一致",
+
+  "carpet.rule.craftingNongfuSpring.name": "农夫山泉",
+  "carpet.rule.craftingNongfuSpring.desc": "允许使用[水瓶, 铁锭, 下界之星]合成农夫山泉, 喝下可以获得2分钟[急迫II]和[速度I]"
 }
