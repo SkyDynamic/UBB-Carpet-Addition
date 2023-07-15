@@ -74,3 +74,24 @@
 - 参考选项: `false` , `true`
 
 - 分类: `SCA` , `FEATURE` , `SURVIVAL`
+
+
+## 可合成农夫山泉 (craftingNongfuSrping)
+
+开启后，便可以合成农夫山泉
+
+```
+合成方式
+
+空 下界之星 空
+空  玻璃瓶  空
+铁锭  空  铁锭
+```
+
+- 类型: `boolean`
+
+- 默认值: `false`
+
+- 默认选项: `false` , `true`
+
+- 分类: `SCA` , `CRAFTING`, `SURVIVAL`
