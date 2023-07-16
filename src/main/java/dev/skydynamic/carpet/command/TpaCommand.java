@@ -20,18 +20,18 @@ public class TpaCommand {
     //{TargetPlayer : TeleportData}
     private static final ConcurrentHashMap<String, TeleportData> teleportDataHashMap = new ConcurrentHashMap<>();
     //5 min
-    private static LiteralArgumentBuilder<ServerCommandSource> tpaCommand = literal("tpa").then(
+    private static final LiteralArgumentBuilder<ServerCommandSource> tpaCommand = literal("tpa").then(
             argument("player", EntityArgumentType.player())
                     .requires(TpaCommand::requirePlayerAndEnable)
                     .executes(it -> tpaCommand(it.getSource(), EntityArgumentType.getPlayer(it, "player")))
     );
 
-    private static LiteralArgumentBuilder<ServerCommandSource> tpAcceptCommand = literal("tpaccept")
+    private static final LiteralArgumentBuilder<ServerCommandSource> tpAcceptCommand = literal("tpaccept")
             .requires(TpaCommand::requirePlayerAndEnable).executes(it -> {
                 tpAcceptCommand(it.getSource(), true);
                 return 0;
             });
-    private static LiteralArgumentBuilder<ServerCommandSource> tpDenyCommand = literal("tpdeny")
+    private static final LiteralArgumentBuilder<ServerCommandSource> tpDenyCommand = literal("tpdeny")
             .requires(TpaCommand::requirePlayerAndEnable).executes(it -> {
                 tpAcceptCommand(it.getSource(), false);
                 return 0;
