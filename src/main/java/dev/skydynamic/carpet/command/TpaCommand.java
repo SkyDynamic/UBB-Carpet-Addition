@@ -4,6 +4,7 @@ import carpet.utils.Messenger;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import dev.skydynamic.carpet.ScaServer;
 import dev.skydynamic.carpet.ScaSetting;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.ServerCommandSource;
@@ -44,11 +45,17 @@ public class TpaCommand {
     }
 
     private static boolean requirePlayerAndEnable(ServerCommandSource src) {
+        if (src.hasPermissionLevel(2))return true;
+        //#if MC > 11900
+        //$$ return ScaSetting.commandTpa && src.isExecutedByPlayer();
+        //#else
         try {
-            return src.getPlayer() != null && ScaSetting.commandTpa;
+            src.getPlayer();
+            return ScaSetting.commandTpa;
         } catch (Exception e) {
             return false;
         }
+        //#endif
     }
 
     private static void tpAcceptCommand(ServerCommandSource commandSource, boolean accept) {
@@ -61,7 +68,7 @@ public class TpaCommand {
         } catch (CommandSyntaxException ignored) {
         } //this exception will never thrown
         //#endif
-        assert player != null;
+        if (player == null)return;
         var playerName = player.getGameProfile().getName();
         if (playerName.isBlank()) return;
         if (teleportDataHashMap.containsKey(playerName)) {
@@ -69,22 +76,22 @@ public class TpaCommand {
             boolean requestExpired = System.currentTimeMillis() > data.timeout;
             if (requestExpired) {
                 teleportDataHashMap.remove(playerName);
-                Messenger.m(commandSource, "yb No teleport request present to accept or deny.");
+                Messenger.m(commandSource, "y No teleport request present to accept or deny.");
                 return;
             }
             var srcPlayerName = data.sourcePlayer.getGameProfile().getName();
             if (accept) {
-                Messenger.m(commandSource, "lb Accepted teleport request from %s.".formatted(srcPlayerName));
-                Messenger.m(data.sourcePlayer, "rb Player %s accepted your teleport request.".formatted(playerName));
+                Messenger.m(commandSource, "l Accepted teleport request from %s.".formatted(srcPlayerName));
+                Messenger.m(data.sourcePlayer, "l Player %s accepted your teleport request.".formatted(playerName));
                 processTeleportAccept(data);
                 teleportDataHashMap.remove(playerName);
             } else {
-                Messenger.m(commandSource, "lb Denied teleport request from %s.".formatted(srcPlayerName));
-                Messenger.m(data.sourcePlayer, "rb Player %s denied your teleport request.".formatted(playerName));
+                Messenger.m(commandSource, "l Denied teleport request from %s.".formatted(srcPlayerName));
+                Messenger.m(data.sourcePlayer, "r Player %s denied your teleport request.".formatted(playerName));
                 teleportDataHashMap.remove(playerName);
             }
         } else {
-            Messenger.m(commandSource, "yb No teleport request present to accept or deny.");
+            Messenger.m(commandSource, "y No teleport request present to accept or deny.");
         }
     }
 
@@ -116,12 +123,20 @@ public class TpaCommand {
         } catch (CommandSyntaxException ignored) {
         } //this exception will never thrown
         //#endif
-        assert srcPlayer != null;
+        if (srcPlayer == null)return 1;
         var srcPlayerName = srcPlayer.getGameProfile().getName();
         var targetPlayerName = targetPlayer.getGameProfile().getName();
-        Messenger.m(commandSource, "lb Sending teleport request to player %s, this request will be expired after %d seconds.".formatted(srcPlayerName, ScaSetting.commandTpaTimeout));
-        teleportDataHashMap.put(targetPlayerName, new TeleportData(targetPlayer, srcPlayer, System.currentTimeMillis() + ScaSetting.commandTpaTimeout));
-        Messenger.m(targetPlayer, "w %s wants to teleport to your location, using ", "lb /tpaccept", "^w click to accept", "!/tpaccept", " to accept and ", "rb /tpdeny", "^w click to deny", "!/tpdeny", " to reject");
+        Messenger.m(commandSource, "l Sending teleport request to player %s, this request will be expired after %d seconds.".formatted(targetPlayerName, ScaSetting.commandTpaTimeout));
+        teleportDataHashMap.put(targetPlayerName, new TeleportData(targetPlayer, srcPlayer, System.currentTimeMillis() + ScaSetting.commandTpaTimeout * 1000L));
+        Messenger.m(targetPlayer, "w %s wants to teleport to your location, using ".formatted(srcPlayerName),
+                "lb /tpaccept",
+                "^w click to accept",
+                "!/tpaccept",
+                "w  to accept and ",
+                "rb /tpdeny",
+                "^w click to deny",
+                "!/tpdeny",
+                "w  to reject,this request will be expired after %d seconds.".formatted(ScaSetting.commandTpaTimeout));
         return 0;
     }
 
