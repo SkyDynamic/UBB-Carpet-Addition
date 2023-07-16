@@ -62,15 +62,16 @@ public class ScaSetting{
         )
     public static boolean softDeepslate = false;
 
+    /*
     @Rule(
             //#if MC>=11900
-            //$$ categories = {SCA, CRAFTING, SURVIVAL}
+            //$$ categories = {SCA, FEATURE}
             //#else
-            category = {SCA, CRAFTING, SURVIVAL},
-            desc = "Can crafting Nongfu Spring"
+            category = {SCA, FEATURE},
+            desc = "You can copy and send another player's message"
             //#endif
     )
-    @CraftingRule(recipes = "nongfu_spring.json")
-    public  static  boolean craftingNongfuSpring = false;
+    public static boolean plusOne = false;
+     */
 
 }

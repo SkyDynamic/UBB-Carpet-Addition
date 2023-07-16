@@ -2,8 +2,7 @@ package dev.skydynamic.carpet;
 
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
-import carpet.CarpetExtension;
-import carpet.CarpetServer;
+
 //#if MC>=11900
 //$$ import carpet.api.settings.CarpetRule;
 //$$ import carpet.api.settings.RuleHelper;
@@ -20,7 +19,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+//#if MC>=11900
 import dev.skydynamic.carpet.api.tools.text.ComponentTranslate;
+//#else
+//$$ import dev.skydynamic.carpet.api.tools.text.OldComponentTranslate;
+//#endif
 import dev.skydynamic.carpet.utils.recipes.CraftingRule;
 
 import net.fabricmc.api.ModInitializer;
@@ -56,6 +59,10 @@ public class ScaServer implements CarpetExtension, ModInitializer {
 
     }
 
+    public String version() {
+        return "carpet-SD-addition";
+    }
+
     public static void loadExtension() {
 
         CarpetServer.manageExtension(new ScaServer());
@@ -85,7 +92,11 @@ public class ScaServer implements CarpetExtension, ModInitializer {
 
     @Override
     public Map<String, String> canHasTranslations(String lang) {
+        //#if MC>=11900
         return ComponentTranslate.getTranslationFromResourcePath(lang);
+        //#else
+        //$$ return OldComponentTranslate.getTranslationFromResourcePath(lang);
+        //#endif
     }
 
     @Override
