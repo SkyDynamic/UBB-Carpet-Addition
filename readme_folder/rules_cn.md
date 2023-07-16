@@ -95,3 +95,28 @@
 - 默认选项: `false` , `true`
 
 - 分类: `SCA` , `CRAFTING`, `SURVIVAL`
+
+## tpa命令 (commandTpa)
+
+开启后可以使用`/tpa <玩家名> `向某位玩家请求传送 ，传送请求会在一段时间内(`commandTpaTimeout`)过期  
+收到请求的玩家可以使用`tpaccept`接受传送请求，或者使用`tpdeny`拒绝传送请求  
+
+- 类型: `boolean`
+
+- 默认值: `false`
+
+- 默认选项: `false` , `true`
+
+- 分类: `SCA` , `CRAFTING`, `SURVIVAL`
+
+
+## tpa请求超时 (commandTpaTimeout)
+
+设置tpa请求超时时长 单位为秒
+
+- 类型: `int`
+
+- 默认值: `300`
+
+- 分类: `SCA` , `CRAFTING`, `SURVIVAL`
+
