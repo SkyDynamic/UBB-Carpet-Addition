@@ -71,12 +71,17 @@ public class ScaServer implements CarpetExtension, ModInitializer {
         CarpetServer.manageExtension(new ScaServer());
 
     }
-
+    //#if MC >= 11900
+    //$$@Override
+    //$$    public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, net.minecraft.command.CommandRegistryAccess commandBuildContext) {
+    //$$        TpaCommand.register(dispatcher);
+    //$$    }
+    //#else
     @Override
     public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {
         TpaCommand.register(dispatcher);
     }
-
+    //#endif
     @Override
     public void onInitialize() {
 
