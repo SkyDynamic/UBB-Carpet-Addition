@@ -25,5 +25,13 @@
   "carpet.rule.softDeepslate.desc": "Change the hardness of deepslate to stone",
 
   "carpet.rule.craftingNongfuSpring.name": "NongfuSpring",
-  "carpet.rule.craftingNongfuSpring.desc": "Allowed to use [Potion, Iron, NetherStar] to crafting NongfuSpring. You can get 2 minutes [Haste II] and [Speed I] effects when drink it"
+  "carpet.rule.craftingNongfuSpring.desc": "Allowed to use [Potion, Iron, NetherStar] to crafting NongfuSpring. You can get 2 minutes [Haste II] and [Speed I] effects when drink it",
+
+  "carpet.rule.commandTpa.name": "tpaCommand",
+  "carpet.rule.commandTpa.desc": "Enable tpa command",
+
+  "carpet.rule.commandTpaTimeout.name": "tpaCommandTimeout",
+  "carpet.rule.commandTpaTimeout.desc": "Set tpa request expiration time in seconds"
+
 }
+

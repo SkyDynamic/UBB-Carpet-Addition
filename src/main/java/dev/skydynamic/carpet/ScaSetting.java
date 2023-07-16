@@ -73,4 +73,24 @@ public class ScaSetting{
     @CraftingRule(recipes = "nongfu_spring.json")
     public  static  boolean craftingNongfuSpring = false;
 
+
+    @Rule(
+            //#if MC>=11900
+            //$$ categories = {SCA, CRAFTING, SURVIVAL}
+            //#else
+            category = {SCA, CRAFTING, SURVIVAL},
+            desc = "Enable tpa command"
+            //#endif
+    )
+    public static boolean commandTpa = false;
+
+    @Rule(
+            //#if MC>=11900
+            //$$ categories = {SCA, CRAFTING, SURVIVAL}
+            //#else
+            category = {SCA, CRAFTING, SURVIVAL},
+            desc = "Set tpa request expiration time in seconds"
+            //#endif
+    )
+    public static int commandTpaTimeout = 5 * 60;
 }
