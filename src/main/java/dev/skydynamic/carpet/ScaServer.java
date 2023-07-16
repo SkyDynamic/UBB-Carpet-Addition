@@ -69,7 +69,6 @@ public class ScaServer implements CarpetExtension, ModInitializer {
     public static void loadExtension() {
 
         CarpetServer.manageExtension(new ScaServer());
-
     }
     //#if MC >= 11900
     //$$@Override

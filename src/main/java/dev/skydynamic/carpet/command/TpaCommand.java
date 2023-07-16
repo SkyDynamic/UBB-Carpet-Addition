@@ -1,5 +1,7 @@
 package dev.skydynamic.carpet.command;
 
+import carpet.CarpetServer;
+import carpet.settings.SettingsManager;
 import carpet.utils.Messenger;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -21,41 +23,29 @@ public class TpaCommand {
     //{TargetPlayer : TeleportData}
     private static final ConcurrentHashMap<String, TeleportData> teleportDataHashMap = new ConcurrentHashMap<>();
     //5 min
-    private static final LiteralArgumentBuilder<ServerCommandSource> tpaCommand = literal("tpa").then(
-            argument("player", EntityArgumentType.player())
-                    .requires(TpaCommand::requirePlayerAndEnable)
+    private static final LiteralArgumentBuilder<ServerCommandSource> tpaCommand = literal("tpa")
+            .requires(src -> src.hasPermissionLevel(2) || ScaSetting.commandTpa)
+            .then(argument("player", EntityArgumentType.player())
                     .executes(it -> tpaCommand(it.getSource(), EntityArgumentType.getPlayer(it, "player")))
-    );
+            );
 
     private static final LiteralArgumentBuilder<ServerCommandSource> tpAcceptCommand = literal("tpaccept")
-            .requires(TpaCommand::requirePlayerAndEnable).executes(it -> {
+            .requires(src -> src.hasPermissionLevel(2) || ScaSetting.commandTpa)
+            .executes(it -> {
                 tpAcceptCommand(it.getSource(), true);
                 return 0;
             });
     private static final LiteralArgumentBuilder<ServerCommandSource> tpDenyCommand = literal("tpdeny")
-            .requires(TpaCommand::requirePlayerAndEnable).executes(it -> {
+            .requires(src -> src.hasPermissionLevel(2) || ScaSetting.commandTpa)
+            .executes(it -> {
                 tpAcceptCommand(it.getSource(), false);
                 return 0;
             });
 
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher){
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(tpaCommand);
         dispatcher.register(tpAcceptCommand);
         dispatcher.register(tpDenyCommand);
-    }
-
-    private static boolean requirePlayerAndEnable(ServerCommandSource src) {
-        if (src.hasPermissionLevel(2))return true;
-        //#if MC > 11900
-        //$$ return ScaSetting.commandTpa && src.isExecutedByPlayer();
-        //#else
-        try {
-            src.getPlayer();
-            return ScaSetting.commandTpa;
-        } catch (Exception e) {
-            return false;
-        }
-        //#endif
     }
 
     private static void tpAcceptCommand(ServerCommandSource commandSource, boolean accept) {
@@ -68,7 +58,7 @@ public class TpaCommand {
         } catch (CommandSyntaxException ignored) {
         } //this exception will never thrown
         //#endif
-        if (player == null)return;
+        if (player == null) return;
         var playerName = player.getGameProfile().getName();
         if (playerName.isBlank()) return;
         if (teleportDataHashMap.containsKey(playerName)) {
@@ -123,7 +113,7 @@ public class TpaCommand {
         } catch (CommandSyntaxException ignored) {
         } //this exception will never thrown
         //#endif
-        if (srcPlayer == null)return 1;
+        if (srcPlayer == null) return 1;
         var srcPlayerName = srcPlayer.getGameProfile().getName();
         var targetPlayerName = targetPlayer.getGameProfile().getName();
         Messenger.m(commandSource, "l Sending teleport request to player %s, this request will be expired after %d seconds.".formatted(targetPlayerName, ScaSetting.commandTpaTimeout));
