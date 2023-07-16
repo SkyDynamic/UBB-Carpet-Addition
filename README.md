@@ -15,7 +15,7 @@
 
 ## 文档
 
-- [规则](/readme_folder/rules_cn.md)
+- [规则](readme_folder/rules_cn.md)
 
 ## 补充说明
 - 前置模组尽可能使用高的版本。
