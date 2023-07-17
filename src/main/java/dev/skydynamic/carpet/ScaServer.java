@@ -25,7 +25,7 @@ import dev.skydynamic.carpet.api.tools.text.ComponentTranslate;
 //#else
 //$$ import dev.skydynamic.carpet.api.tools.text.OldComponentTranslate;
 //#endif
-import dev.skydynamic.carpet.command.TpaCommand;
+import dev.skydynamic.carpet.command.TpaManager;
 import dev.skydynamic.carpet.utils.recipes.CraftingRule;
 
 import net.fabricmc.api.ModInitializer;
@@ -78,7 +78,7 @@ public class ScaServer implements CarpetExtension, ModInitializer {
     //#else
     @Override
     public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {
-        TpaCommand.register(dispatcher);
+        TpaManager.registerCommand(dispatcher);
     }
     //#endif
     @Override
