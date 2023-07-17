@@ -33,7 +33,7 @@
   "carpet.rule.commandTpaTimeout.name": "tpaCommandTimeout",
   "carpet.rule.commandTpaTimeout.desc": "Set tpa request expiration time in seconds",
 
-  "carpet.rule.commandTpaTeleportTimeout.name": "tpaCommandTeleportWaits",
-  "carpet.rule.commandTpaTeleportTimeout.desc": "Set the time in seconds to wait before teleport occurs， set value to 0 to disable teleport waits"
+  "carpet.rule.commandTpaTeleportWaits.name": "tpaCommandTeleportWaits",
+  "carpet.rule.commandTpaTeleportWaits.desc": "Set the time in seconds to wait before teleport occurs， set value to 0 to disable teleport waits"
 }
 

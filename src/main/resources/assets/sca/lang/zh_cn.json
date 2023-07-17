@@ -33,6 +33,6 @@
   "carpet.rule.commandTpaTimeout.name": "tpa请求超时时间",
   "carpet.rule.commandTpaTimeout.desc": "设置tpa请求超时，单位为秒",
 
-  "carpet.rule.commandTpaTeleportTimeout.name": "tpa传送前等待时间",
-  "carpet.rule.commandTpaTeleportTimeout.desc": "设置tpa传送发生之前的等待时间，单位为秒, 当值为0时禁用传送等待"
+  "carpet.rule.commandTpaTeleportWaits.name": "tpa传送前等待时间",
+  "carpet.rule.commandTpaTeleportWaits.desc": "设置tpa传送发生之前的等待时间，单位为秒, 当值为0时禁用传送等待"
 }

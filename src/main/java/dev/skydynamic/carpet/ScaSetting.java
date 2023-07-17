@@ -102,5 +102,5 @@ public class ScaSetting{
             desc = "Set the time in seconds to wait before teleport occurs"
             //#endif
     )
-    public static int commandTpaTeleportWaits = 5 * 60;
+    public static int commandTpaTeleportWaits = 5;
 }

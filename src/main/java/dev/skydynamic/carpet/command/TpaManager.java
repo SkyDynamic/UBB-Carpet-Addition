@@ -78,16 +78,21 @@ public class TpaManager {
                     Messenger.m(data.sourcePlayer, "l Player %s accepted your teleport request.".formatted(playerName));
                     processTeleportAccept(data);
                     teleportDataHashMap.remove(playerName);
-                }else {
-                    Messenger.m(commandSource, "l Accepted teleport request from %s, teleport will start in %d seconds.".formatted(srcPlayerName, ScaSetting.commandTpaTimeout));
-                    Messenger.m(data.sourcePlayer, "l Player %s accepted your teleport request, teleport will start in %d seconds.".formatted(playerName, ScaSetting.commandTpaTimeout));
+                } else {
+                    Messenger.m(commandSource, "l Accepted teleport request from %s, teleport will start in %d seconds.".formatted(srcPlayerName, ScaSetting.commandTpaTeleportWaits));
+                    Messenger.m(data.sourcePlayer, "l Player %s accepted your teleport request, teleport will start in %d seconds.".formatted(playerName, ScaSetting.commandTpaTeleportWaits));
                     data.timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            onPlayerMoveCallbackMap.remove(playerName);
-                            processTeleportAccept(data);
+                            try {
+                                synchronized (onPlayerMoveCallbackMap){
+                                    onPlayerMoveCallbackMap.remove(playerName);
+                                    processTeleportAccept(data);
+                                }
+                            } catch (Exception ignored) {
+                            }
                         }
-                    }, ScaSetting.commandTpaTimeout * 1000L);
+                    }, ScaSetting.commandTpaTeleportWaits * 1000L);
                     onPlayerMoveCallbackMap.put(data.sourcePlayer.getGameProfile().getName(), data);
                     teleportDataHashMap.remove(playerName);
                 }
@@ -105,7 +110,7 @@ public class TpaManager {
         var srcPlayer = teleportRequest.sourcePlayer;
         var destinationPlayerBlockPos = teleportRequest.destinationPlayer.getBlockPos();
         //#if MC >= 12000
-        //$$ var destinationPlayerWorld = teleportData.destinationPlayer.getServerWorld();
+        //$$ var destinationPlayerWorld = teleportRequest.destinationPlayer.getServerWorld();
         //#else
         var destinationPlayerWorld = teleportRequest.destinationPlayer.getWorld();
         //#endif
@@ -150,6 +155,7 @@ public class TpaManager {
         ServerPlayerEntity destinationPlayer;
         ServerPlayerEntity sourcePlayer;
         long timeout;
+
         Timer timer = new Timer("TeleportTimer");
 
         public TeleportRequest(ServerPlayerEntity destinationPlayer, ServerPlayerEntity sourcePlayer, long timeout) {
@@ -159,16 +165,16 @@ public class TpaManager {
         }
     }
 
-    public static void invokePlayerMoveCallback(ServerPlayerEntity player){
-        synchronized (onPlayerMoveCallbackMap) {
-            var playerName = player.getGameProfile().getName();
+    public static void invokePlayerMoveCallback(ServerPlayerEntity player) {
+        var playerName = player.getGameProfile().getName();
+        synchronized (onPlayerMoveCallbackMap){
+            if (!onPlayerMoveCallbackMap.containsKey(playerName)) return;
             var request = onPlayerMoveCallbackMap.get(playerName);
-            if (request != null) {
-                onPlayerMoveCallbackMap.remove(playerName);
-                Messenger.m(request.destinationPlayer,"y Teleport cancelled.");
-                Messenger.m(request.sourcePlayer,"y Teleport cancelled.");
-                request.timer.cancel();
-            }
+            if (request == null) return;
+            onPlayerMoveCallbackMap.remove(playerName);
+            Messenger.m(request.destinationPlayer, "y Teleport cancelled.");
+            Messenger.m(request.sourcePlayer, "y Teleport cancelled.");
+            request.timer.cancel();
         }
     }
 }
