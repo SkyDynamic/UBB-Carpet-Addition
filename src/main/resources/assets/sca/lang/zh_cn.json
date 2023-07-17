@@ -25,5 +25,11 @@
   "carpet.rule.softDeepslate.desc": "改变深板岩的硬度使其和普通石头一致",
 
   "carpet.rule.craftingNongfuSpring.name": "农夫山泉",
-  "carpet.rule.craftingNongfuSpring.desc": "允许使用[水瓶, 铁锭, 下界之星]合成农夫山泉, 喝下可以获得2分钟[急迫II]和[速度I]"
+  "carpet.rule.craftingNongfuSpring.desc": "允许使用[水瓶, 铁锭, 下界之星]合成农夫山泉, 喝下可以获得2分钟[急迫II]和[速度I]",
+
+  "carpet.rule.commandTpa.name": "tpa 命令",
+  "carpet.rule.commandTpa.desc": "启用tpa命令",
+
+  "carpet.rule.commandTpaTimeout.name": "tpa请求超时时间",
+  "carpet.rule.commandTpaTimeout.desc": "设置tpa请求超时，单位为秒"
 }

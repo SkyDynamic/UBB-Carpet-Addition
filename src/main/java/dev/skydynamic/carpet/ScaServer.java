@@ -20,16 +20,19 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 //#if MC>=11900
+import com.mojang.brigadier.CommandDispatcher;
 import dev.skydynamic.carpet.api.tools.text.ComponentTranslate;
 //#else
 //$$ import dev.skydynamic.carpet.api.tools.text.OldComponentTranslate;
 //#endif
+import dev.skydynamic.carpet.command.TpaCommand;
 import dev.skydynamic.carpet.utils.recipes.CraftingRule;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ReloadCommand;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.WorldSavePath;
 
 import org.apache.logging.log4j.LogManager;
@@ -66,9 +69,18 @@ public class ScaServer implements CarpetExtension, ModInitializer {
     public static void loadExtension() {
 
         CarpetServer.manageExtension(new ScaServer());
-
     }
-
+    //#if MC >= 11900
+    //$$@Override
+    //$$    public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, net.minecraft.command.CommandRegistryAccess commandBuildContext) {
+    //$$        TpaCommand.register(dispatcher);
+    //$$    }
+    //#else
+    @Override
+    public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {
+        TpaCommand.register(dispatcher);
+    }
+    //#endif
     @Override
     public void onInitialize() {
 
