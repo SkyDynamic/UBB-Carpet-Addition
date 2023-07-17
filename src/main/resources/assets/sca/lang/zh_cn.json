@@ -34,5 +34,24 @@
   "carpet.rule.commandTpaTimeout.desc": "设置tpa请求超时，单位为秒",
 
   "carpet.rule.commandTpaTeleportWaits.name": "tpa传送前等待时间",
-  "carpet.rule.commandTpaTeleportWaits.desc": "设置tpa传送发生之前的等待时间，单位为秒, 当值为0时禁用传送等待"
+  "carpet.rule.commandTpaTeleportWaits.desc": "设置tpa传送发生之前的等待时间，单位为秒, 当值为0时禁用传送等待",
+
+  "tpa.accepted.src.nowait": "l 接受了来自 {0} 的传送请求.",
+  "tpa.accepted.dst.nowait": "l 玩家 {0} 接受了你的传送请求.",
+  "tpa.accepted.src.wait": "l 已接受来自 {0} 的传送请求, 传送将会在{1}秒钟后进行, 请不要移动.",
+  "tpa.accepted.dst.wait": "l 玩家 {0} 接受了你的传送请求, 传送将会在 {1}秒钟之后进行.",
+
+  "tpa.denied.src": "l 拒绝了来自 {0} 的传送请求.",
+  "tpa.denied.dst": "r {0} 拒绝了你的传送请求.",
+
+  "tpa.empty": "y 当前没有待处理的传送请求.",
+  "tpa.sending": "l 正在向玩家 {0} 发送传送请求,请求将会在{1}秒钟之后过期.",
+
+  "tpa.request.a": "w {0} 想要传送到你的位置,使用 ",
+  "tpa.click.accept": "^w 点击以接受请求",
+  "tpa.request.b": "w  接受请求, ",
+  "tpa.click.deny": "^w 点击拒绝请求",
+  "tpa.request.c": "w  拒绝请求, 请求将会在{0}秒钟之后过期.",
+
+  "tpa.cancelled": "y 传送已取消."
 }

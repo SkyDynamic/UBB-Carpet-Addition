@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
+import static dev.skydynamic.carpet.utils.translate.TranslateUtil.tr;
 
 
 public class TpaManager {
@@ -68,19 +69,24 @@ public class TpaManager {
             boolean requestExpired = System.currentTimeMillis() > data.timeout;
             if (requestExpired) {
                 teleportDataHashMap.remove(playerName);
-                Messenger.m(commandSource, "y No teleport request present to accept or deny.");
+                Messenger.m(commandSource, tr("tpa.empty"));
                 return;
             }
             var srcPlayerName = data.sourcePlayer.getGameProfile().getName();
             if (accept) {
                 if (ScaSetting.commandTpaTeleportWaits <= 0) {
-                    Messenger.m(commandSource, "l Accepted teleport request from %s.".formatted(srcPlayerName));
-                    Messenger.m(data.sourcePlayer, "l Player %s accepted your teleport request.".formatted(playerName));
+                    Messenger.m(commandSource, tr("tpa.accepted.src.nowait",srcPlayerName));
+                    Messenger.m(data.sourcePlayer, tr("tpa.accepted.dst.nowait",playerName));
+//                    Messenger.m(commandSource, "l Accepted teleport request from %s.".formatted(srcPlayerName));
+//                    Messenger.m(data.sourcePlayer, "l Player %s accepted your teleport request.".formatted(playerName));
                     processTeleportAccept(data);
                     teleportDataHashMap.remove(playerName);
                 } else {
-                    Messenger.m(commandSource, "l Accepted teleport request from %s, teleport will start in %d seconds.".formatted(srcPlayerName, ScaSetting.commandTpaTeleportWaits));
-                    Messenger.m(data.sourcePlayer, "l Player %s accepted your teleport request, teleport will start in %d seconds.".formatted(playerName, ScaSetting.commandTpaTeleportWaits));
+                    Messenger.m(commandSource, tr("tpa.accepted.src.wait",srcPlayerName, ScaSetting.commandTpaTeleportWaits));
+                    Messenger.m(data.sourcePlayer, tr("tpa.accepted.dst.wait",playerName, ScaSetting.commandTpaTeleportWaits));
+
+//                    Messenger.m(commandSource, "l Accepted teleport request from %s, teleport will start in %d seconds.".formatted(srcPlayerName, ScaSetting.commandTpaTeleportWaits));
+//                    Messenger.m(data.sourcePlayer, "l Player %s accepted your teleport request, teleport will start in %d seconds.".formatted(playerName, ScaSetting.commandTpaTeleportWaits));
                     data.timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -97,12 +103,13 @@ public class TpaManager {
                     teleportDataHashMap.remove(playerName);
                 }
             } else {
-                Messenger.m(commandSource, "l Denied teleport request from %s.".formatted(srcPlayerName));
-                Messenger.m(data.sourcePlayer, "r Player %s denied your teleport request.".formatted(playerName));
+                Messenger.m(commandSource, tr("tpa.denied.src",srcPlayerName));
+                Messenger.m(data.sourcePlayer, tr("tpa.denied.dst",playerName));
                 teleportDataHashMap.remove(playerName);
             }
         } else {
-            Messenger.m(commandSource, "y No teleport request present to accept or deny.");
+
+            Messenger.m(commandSource, tr("tpa.empty"));
         }
     }
 
@@ -137,17 +144,17 @@ public class TpaManager {
         if (srcPlayer == null) return 1;
         var srcPlayerName = srcPlayer.getGameProfile().getName();
         var targetPlayerName = targetPlayer.getGameProfile().getName();
-        Messenger.m(commandSource, "l Sending teleport request to player %s, this request will be expired after %d seconds.".formatted(targetPlayerName, ScaSetting.commandTpaTimeout));
+        Messenger.m(commandSource, tr("tpa.sending",targetPlayerName, ScaSetting.commandTpaTimeout));
         teleportDataHashMap.put(targetPlayerName, new TeleportRequest(targetPlayer, srcPlayer, System.currentTimeMillis() + ScaSetting.commandTpaTimeout * 1000L));
-        Messenger.m(targetPlayer, "w %s wants to teleport to your location, using ".formatted(srcPlayerName),
+        Messenger.m(targetPlayer, tr("tpa.request.a",srcPlayerName),
                 "lb /tpaccept",
-                "^w click to accept",
+                tr("tpa.click.accept"),
                 "!/tpaccept",
-                "w  to accept and ",
+                tr("tpa.request.b"),
                 "rb /tpdeny",
-                "^w click to deny",
+                tr("tpa.click.deny"),
                 "!/tpdeny",
-                "w  to reject,this request will be expired after %d seconds.".formatted(ScaSetting.commandTpaTimeout));
+                tr("tpa.request.c",ScaSetting.commandTpaTimeout));
         return 0;
     }
 
@@ -172,8 +179,8 @@ public class TpaManager {
             var request = onPlayerMoveCallbackMap.get(playerName);
             if (request == null) return;
             onPlayerMoveCallbackMap.remove(playerName);
-            Messenger.m(request.destinationPlayer, "y Teleport cancelled.");
-            Messenger.m(request.sourcePlayer, "y Teleport cancelled.");
+            Messenger.m(request.destinationPlayer, tr("tpa.cancelled"));
+            Messenger.m(request.sourcePlayer, tr("tpa.cancelled"));
             request.timer.cancel();
         }
     }

@@ -34,6 +34,25 @@
   "carpet.rule.commandTpaTimeout.desc": "Set tpa request expiration time in seconds",
 
   "carpet.rule.commandTpaTeleportWaits.name": "tpaCommandTeleportWaits",
-  "carpet.rule.commandTpaTeleportWaits.desc": "Set the time in seconds to wait before teleport occurs， set value to 0 to disable teleport waits"
+  "carpet.rule.commandTpaTeleportWaits.desc": "Set the time in seconds to wait before teleport occurs， set value to 0 to disable teleport waits",
+
+  "tpa.accepted.src.nowait": "l Accepted teleport request from {0}.",
+  "tpa.accepted.dst.nowait": "l Player {0} accepted your teleport request.",
+  "tpa.accepted.src.wait": "l Accepted teleport request from {0}, teleport will start in {1} seconds.",
+  "tpa.accepted.dst.wait": "l Player {0} accepted your teleport request, teleport will start in {1} seconds.",
+
+  "tpa.denied.src": "l Denied teleport request from {0}.",
+  "tpa.denied.dst": "r Player {0} denied your teleport request.",
+
+  "tpa.empty": "y No teleport request present to accept or deny.",
+  "tpa.sending": "l Sending teleport request to player {0}, this request will be expired after {1} seconds.",
+
+  "tpa.request.a": "w {0} wants to teleport to your location, using ",
+  "tpa.click.accept": "^w click to accept",
+  "tpa.request.b": "w  to accept and",
+  "tpa.click.deny": "^w click to deny",
+  "tpa.request.c": "w  to reject,this request will be expired after {0} seconds.",
+
+  "tpa.cancelled": "y Teleport cancelled."
 }
 
