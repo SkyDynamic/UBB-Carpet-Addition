@@ -78,7 +78,7 @@ public class ScaSetting{
             //#if MC>=11900
             //$$ categories = {SCA, CRAFTING, SURVIVAL}
             //#else
-            category = {SCA, CRAFTING, SURVIVAL},
+            category = {SCA, CRAFTING, FEATURE},
             desc = "Enable tpa command"
             //#endif
     )
@@ -88,7 +88,7 @@ public class ScaSetting{
             //#if MC>=11900
             //$$ categories = {SCA, CRAFTING, SURVIVAL}
             //#else
-            category = {SCA, CRAFTING, SURVIVAL},
+            category = {SCA, CRAFTING, FEATURE},
             desc = "Set tpa request expiration time in seconds"
             //#endif
     )
