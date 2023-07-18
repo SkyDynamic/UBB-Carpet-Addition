@@ -59,7 +59,7 @@ public class ScaServer implements CarpetExtension, ModInitializer {
 
     public String get_version() {
 
-        return "1.0.6";
+        return "1.0.7";
 
     }
 

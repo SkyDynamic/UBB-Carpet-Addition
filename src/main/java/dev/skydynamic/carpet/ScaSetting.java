@@ -86,9 +86,9 @@ public class ScaSetting{
 
     @Rule(
             //#if MC>=11900
-            //$$ categories = {SCA, CRAFTING, SURVIVAL}
+            //$$ categories = {SCA, TPA, FEATURE, SURVIVAL}
             //#else
-            category = {SCA, CRAFTING, FEATURE},
+            category = {SCA, TPA, FEATURE, SURVIVAL},
             desc = "Set tpa request expiration time in seconds"
             //#endif
     )
@@ -96,9 +96,9 @@ public class ScaSetting{
 
     @Rule(
             //#if MC>=11900
-            //$$ categories = {SCA, CRAFTING, SURVIVAL}
+            //$$ categories = {SCA, TPA, FEATURE, SURVIVAL  }
             //#else
-            category = {SCA, CRAFTING, FEATURE},
+            category = {SCA, TPA, FEATURE, SURVIVAL},
             desc = "Set the time in seconds to wait before teleport occurs"
             //#endif
     )
