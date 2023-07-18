@@ -25,9 +25,10 @@ import dev.skydynamic.carpet.api.tools.text.ComponentTranslate;
 //#else
 //$$ import dev.skydynamic.carpet.api.tools.text.OldComponentTranslate;
 //#endif
-import dev.skydynamic.carpet.command.TpaCommand;
+import dev.skydynamic.carpet.command.TpaManager;
 import dev.skydynamic.carpet.utils.recipes.CraftingRule;
 
+import dev.skydynamic.carpet.utils.translate.TranslateUtil;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.server.MinecraftServer;
@@ -73,12 +74,12 @@ public class ScaServer implements CarpetExtension, ModInitializer {
     //#if MC >= 11900
     //$$@Override
     //$$    public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, net.minecraft.command.CommandRegistryAccess commandBuildContext) {
-    //$$        TpaCommand.register(dispatcher);
+    //$$        TpaManager.registerCommand(dispatcher);
     //$$    }
     //#else
     @Override
     public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {
-        TpaCommand.register(dispatcher);
+        TpaManager.registerCommand(dispatcher);
     }
     //#endif
     @Override
@@ -104,6 +105,7 @@ public class ScaServer implements CarpetExtension, ModInitializer {
 
     @Override
     public Map<String, String> canHasTranslations(String lang) {
+        TranslateUtil.handleResourceReload(lang);
         //#if MC>=11900
         return ComponentTranslate.getTranslationFromResourcePath(lang);
         //#else

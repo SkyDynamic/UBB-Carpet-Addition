@@ -93,4 +93,14 @@ public class ScaSetting{
             //#endif
     )
     public static int commandTpaTimeout = 5 * 60;
+
+    @Rule(
+            //#if MC>=11900
+            //$$ categories = {SCA, CRAFTING, SURVIVAL}
+            //#else
+            category = {SCA, CRAFTING, FEATURE},
+            desc = "Set the time in seconds to wait before teleport occurs"
+            //#endif
+    )
+    public static int commandTpaTeleportWaits = 5;
 }
