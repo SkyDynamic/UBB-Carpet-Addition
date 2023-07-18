@@ -96,7 +96,7 @@ public class ScaSetting{
 
     @Rule(
             //#if MC>=11900
-            //$$ categories = {SCA, TPA, FEATURE, SURVIVAL  }
+            //$$ categories = {SCA, TPA, FEATURE, SURVIVAL}
             //#else
             category = {SCA, TPA, FEATURE, SURVIVAL},
             desc = "Set the time in seconds to wait before teleport occurs"
