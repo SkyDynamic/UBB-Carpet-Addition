@@ -94,7 +94,7 @@
 
 - 默认选项: `false` , `true`
 
-- 分类: `SCA` , `CRAFTING`, `SURVIVAL`
+- 分类: `SCA` , `TPA`, `FEATURE`
 
 ## tpa命令 (commandTpa)
 
@@ -107,7 +107,7 @@
 
 - 默认选项: `false` , `true`
 
-- 分类: `SCA` , `CRAFTING`, `SURVIVAL`
+- 分类: `SCA` , `TPA`, `FEATURE`
 
 
 ## tpa请求超时 (commandTpaTimeout)
@@ -118,5 +118,15 @@
 
 - 默认值: `300`
 
-- 分类: `SCA` , `CRAFTING`, `SURVIVAL`
+- 分类: `SCA` , `TPA`, `FEATURE`
+
+## tpa传送前等待时间 (commandTpaTeleportWaits)
+
+设置tpa传送发生之前的等待时间，单位为秒, 当值为0时禁用传送等待
+
+- 类型: `int`
+
+- 默认值: `5`
+
+- 分类: `SCA` , `TPA`, `FEATURE`
 
