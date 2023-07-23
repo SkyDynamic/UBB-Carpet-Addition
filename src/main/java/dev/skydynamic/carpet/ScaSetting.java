@@ -12,38 +12,6 @@ public class ScaSetting{
 
     @Rule(
             //#if MC>=11900
-            //$$ categories = {SCA, FEATURE, SURVIVAL}
-            //#else
-            category = {SCA, FEATURE, SURVIVAL},
-            desc = "Make cactus accepts scheduled tick as random tick"
-            //#endif
-        )
-    public static boolean scheduledRandomTickCactus = false;
-
-    @Rule(
-            options = {"bone_block", "wither_skeleton_skull", "note_block", "OFF"},
-            //#if MC>=11900
-            //$$ categories = {SCA, SCA_CHUNKLOADER}
-            //#else
-            category = {SCA, SCA_CHUNKLOADER},
-            desc = "Load nearby 3x3 chunks for 15 seconds when a note block is triggered"
-            //#endif
-        )
-    public static String noteBlockChunkLoader = "OFF";
-
-    @Rule(
-            options = {"bone_block", "bedrock", "all", "OFF"},
-            //#if MC>=11900
-            //$$ categories = {SCA, FEATURE, SCA_CHUNKLOADER}
-            //#else
-            category = {SCA, FEATURE, SCA_CHUNKLOADER},
-            desc = "Load nearby 3x3 chunks for 15 seconds when a piston is triggered (Centered on the piston head)"
-            //#endif
-        )
-    public static String pistonBlockChunkLoader = "OFF";
-
-    @Rule(
-            //#if MC>=11900
             //$$ categories = {SCA, FEATURE, SCA_CHUNKLOADER}
             //#else
             category = {SCA, FEATURE, SCA_CHUNKLOADER},
@@ -51,16 +19,6 @@ public class ScaSetting{
             //#endif
     )
     public static boolean pearlTickets = false;
-
-    @Rule(
-            //#if MC>=11900
-            //$$ categories = {SCA, FEATURE, SURVIVAL}
-            //#else
-            category = {SCA, FEATURE, SURVIVAL},
-            desc = "Change the hardness of deepslate to stone"
-            //#endif
-        )
-    public static boolean softDeepslate = false;
 
     @Rule(
             //#if MC>=11900
@@ -78,7 +36,7 @@ public class ScaSetting{
             //#if MC>=11900
             //$$ categories = {SCA, CRAFTING, SURVIVAL}
             //#else
-            category = {SCA, CRAFTING, FEATURE},
+            category = {SCA, TPA, FEATURE},
             desc = "Enable tpa command"
             //#endif
     )
@@ -88,7 +46,7 @@ public class ScaSetting{
             //#if MC>=11900
             //$$ categories = {SCA, TPA, FEATURE, SURVIVAL}
             //#else
-            category = {SCA, TPA, FEATURE, SURVIVAL},
+            category = {SCA, TPA, FEATURE},
             desc = "Set tpa request expiration time in seconds"
             //#endif
     )
@@ -98,7 +56,7 @@ public class ScaSetting{
             //#if MC>=11900
             //$$ categories = {SCA, TPA, FEATURE, SURVIVAL}
             //#else
-            category = {SCA, TPA, FEATURE, SURVIVAL},
+            category = {SCA, TPA, FEATURE},
             desc = "Set the time in seconds to wait before teleport occurs"
             //#endif
     )

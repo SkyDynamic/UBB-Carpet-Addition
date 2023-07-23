@@ -16,6 +16,11 @@ preprocess {
 	mc119.link(mc1201, file('versions/mapping-1.19-1.20.txt'))
 }
 
+subprojects {
+	delete project.projectDir.toPath().resolve('build')
+	delete project.project.projectDir.toPath().resolve('src')
+}
+
 tasks.register('buildAndGather') {
 	subprojects {
 		dependsOn project.name + ':build'
