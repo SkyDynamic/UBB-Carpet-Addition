@@ -1,8 +1,8 @@
-name: Build Mod
+name: Build Mod for notAmsCarpet Version
 
 on:
   push:
-    branches: [ 'main' ]
+    branches: [ 'notAmsCarpet' ]
     paths:
       - src/**
       - build.gradle
