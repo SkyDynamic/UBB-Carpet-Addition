@@ -1,14 +1,14 @@
 {
 	"schemaVersion": 1,
-	"id": "carpet-sd-addition",
+	"id": "carpet-ubb-addition",
 	"version": "${version}",
-	"name": "SkyDynamic-Carpet-Addition",
+	"name": "UBB-Carpet-Addition",
 	"description": "carpet addition for minecraft",
 	"authors": [
 		"SkyDynamic"
 	],
 	"contact": {
-		"sources": "https://github.com/SkyDynamic/SkyDynamic-Carpet-Addition"
+		"sources": "https://github.com/SkyDynamic/UBB-Carpet-Addition"
 	},
 	"license": "MIT",
 	"icon": "assets/sca/icon.png",
