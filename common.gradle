@@ -71,10 +71,13 @@ remapJar {
 	remapperIsolation = true
 }
 
-if (mcVersion >= 11800) {
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+JavaVersion JAVA_VERSION
+if (mcVersion >= 12005) {
+	JAVA_VERSION = JavaVersion.VERSION_21
+} else {
+	JAVA_VERSION = JavaVersion.VERSION_17
 }
+JavaVersion MIXIN_COMPATIBILITY_LEVEL = JAVA_VERSION
 
 String versionSuffix = ''
 // detect github action environment variables
@@ -99,6 +102,12 @@ processResources {
 		]
 		expand valueMap
 	}
+
+	filesMatching("sca.mixins.json") {
+		filter {
+			text -> text.replace("/*JAVA_VERSION*/", "JAVA_${MIXIN_COMPATIBILITY_LEVEL.ordinal() + 1}")
+		}
+	}
 }
 
 // ensure that the encoding is set to UTF-8, no matter what the system default is
@@ -113,6 +122,8 @@ java {
 	// if it is present.
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
+	sourceCompatibility = JAVA_VERSION
+	targetCompatibility = JAVA_VERSION
 }
 
 jar {
