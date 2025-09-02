@@ -1,5 +1,6 @@
 package dev.skydynamic.carpet;
 
+import dev.skydynamic.carpet.utils.recipes.CraftingRule;
 import static dev.skydynamic.carpet.settings.ScaRuleCategory.*;
 import carpet.api.settings.Rule;
 
@@ -31,4 +32,10 @@ public class ScaSetting{
         categories = {SCA, FEATURE, SURVIVAL}
     )
     public static boolean softDeepslate = false;
+
+    @Rule(
+        categories = {SCA, CRAFTING, SURVIVAL}
+    )
+    @CraftingRule(recipes = "nongfu_spring.json")
+    public static boolean craftingNongfuSpring = false;
 }

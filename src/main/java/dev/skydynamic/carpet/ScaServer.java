@@ -15,8 +15,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import dev.skydynamic.carpet.api.tools.text.ComponentTranslate;
-import dev.skydynamic.carpet.utils.recipes.CraftingRule;
 
+import dev.skydynamic.carpet.utils.recipes.CraftingRule;
 import dev.skydynamic.carpet.utils.translate.TranslateUtil;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.server.MinecraftServer;
