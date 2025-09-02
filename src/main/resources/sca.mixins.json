@@ -3,12 +3,13 @@
   "package": "dev.skydynamic.carpet.mixin",
   "compatibilityLevel": "/*JAVA_VERSION*/",
   "mixins": [
-    "AbstractBlockStateMixin",
+    "BlockStateBaseMixin",
     "CactusBlockMixin",
-    "EnderPearlEntityMixin",
     "NoteBlockMixin",
-    "PistonBlockMixin",
-    "ServerPlayerNetworkHandlerMixin"
+    "PistonBaseBlockMixin",
+    "PlayerListMixin",
+    "ServerPlayerNetworkHandlerMixin",
+    "ThrownEnderpearlMixin"
   ],
   "injectors": {
     "defaultRequire": 1

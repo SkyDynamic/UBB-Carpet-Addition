@@ -2,18 +2,15 @@ package dev.skydynamic.carpet.mixin;
 
 import dev.skydynamic.carpet.ScaSetting;
 import dev.skydynamic.carpet.function.BlockChunkLoader;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.NoteBlock;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.World;
-//#if MC>=11900
-//$$ import net.minecraft.block.BlockState;
-//$$ import net.minecraft.entity.Entity;
-//#endif
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.NoteBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,29 +22,24 @@ import java.util.Objects;
 public abstract class NoteBlockMixin {
     @Inject(at = @At("HEAD"), method = "playNote")
     private void playNoteMixin(
-            //#if MC>=11900
-            //$$ Entity entity,
-            //#endif
-            //#if MC>=11903
-            //$$ BlockState blockState,
-            //#endif
-            World world, BlockPos pos, CallbackInfo info) {
-        if (Objects.equals(ScaSetting.noteBlockChunkLoader, "note_block") && !world.isClient) {
-            ChunkPos chunkPos = new ChunkPos(pos);
-            ((ServerWorld) world).getChunkManager().addTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+        Entity entity, BlockState blockState, Level level, BlockPos blockPos, CallbackInfo ci) {
+        if (Objects.equals(ScaSetting.noteBlockChunkLoader, "note_block") && !level.isClientSide()) {
+            ChunkPos chunkPos = new ChunkPos(blockPos);
+            ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
         }
-        if (Objects.equals(ScaSetting.noteBlockChunkLoader, "bone_block") && !world.isClient) {
-            BlockState noteBlock = world.getBlockState(pos.up(1));
-            if (Objects.equals(ScaSetting.noteBlockChunkLoader, "bone_block") && noteBlock.isOf(Blocks.BONE_BLOCK)) {
-                ChunkPos chunkPos = new ChunkPos(pos.up(1));
-                ((ServerWorld) world).getChunkManager().addTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+        if (Objects.equals(ScaSetting.noteBlockChunkLoader, "bone_block") && !level.isClientSide()) {
+            BlockState noteBlock = level.getBlockState(blockPos.above());
+            if (Objects.equals(ScaSetting.noteBlockChunkLoader, "bone_block") && noteBlock.is(Blocks.BONE_BLOCK)) {
+                ChunkPos chunkPos = new ChunkPos(blockPos.above());
+                ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
             }
         }
-        if (Objects.equals(ScaSetting.noteBlockChunkLoader, "wither_skeleton_skull") && !world.isClient) {
-            BlockState noteBlock = world.getBlockState(pos.up(1));
-            if (Objects.equals(ScaSetting.noteBlockChunkLoader, "wither_skeleton_skull") && (noteBlock.isOf(Blocks.WITHER_SKELETON_SKULL)) || (noteBlock.isOf(Blocks.WITHER_SKELETON_WALL_SKULL))) {
-                ChunkPos chunkPos = new ChunkPos(pos.up(1));
-                ((ServerWorld) world).getChunkManager().addTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+        if (Objects.equals(ScaSetting.noteBlockChunkLoader, "wither_skeleton_skull") && !level.isClientSide()) {
+            BlockState noteBlock = level.getBlockState(blockPos.below());
+            if (Objects.equals(ScaSetting.noteBlockChunkLoader, "wither_skeleton_skull") && (noteBlock.is(Blocks.WITHER_SKELETON_SKULL))
+                || (noteBlock.is(Blocks.WITHER_SKELETON_WALL_SKULL))) {
+                ChunkPos chunkPos = new ChunkPos(blockPos.below());
+                ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
             }
         }
     }

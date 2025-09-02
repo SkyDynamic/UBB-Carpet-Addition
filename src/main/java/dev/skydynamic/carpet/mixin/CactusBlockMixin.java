@@ -1,48 +1,42 @@
 package dev.skydynamic.carpet.mixin;
 
 import dev.skydynamic.carpet.ScaSetting;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CactusBlock;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.CactusBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-//#if MC>=11900
-//$$import net.minecraft.util.math.random.Random;
-//#else
-import java.util.Random;
-//#endif
-
 @Mixin(CactusBlock.class)
 public abstract class CactusBlockMixin{
     @Shadow
-    public abstract void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random);
+    protected abstract void randomTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource);
 
     @Inject(
-            method = "scheduledTick",
+            method = "tick",
             at = @At(
                     value = "INVOKE",
                     shift = At.Shift.AFTER,
-                    target = "Lnet/minecraft/server/world/ServerWorld;breakBlock(Lnet/minecraft/util/math/BlockPos;Z)Z"
+                    target = "Lnet/minecraft/server/level/ServerLevel;destroyBlock(Lnet/minecraft/core/BlockPos;Z)Z"
             ),
             cancellable = true
     )
-    private void scheduleTickMixinInvoke(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
+    private void scheduleTickMixinInvoke(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
         if (ScaSetting.scheduledRandomTickCactus)
             ci.cancel();
     }
 
     @Inject(
-            method = "scheduledTick",
+            method = "tick",
             at = @At("TAIL")
     )
-    private void scheduleTickMixinTail(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
+    private void scheduleTickMixinTail(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
         if (ScaSetting.scheduledRandomTickCactus)
-            this.randomTick(state, world, pos, random);
+            this.randomTick(blockState, serverLevel, blockPos, randomSource);
     }
 }

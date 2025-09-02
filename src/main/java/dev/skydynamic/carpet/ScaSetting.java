@@ -72,35 +72,4 @@ public class ScaSetting{
     )
     @CraftingRule(recipes = "nongfu_spring.json")
     public  static  boolean craftingNongfuSpring = false;
-
-
-    @Rule(
-            //#if MC>=11900
-            //$$ categories = {SCA, CRAFTING, SURVIVAL}
-            //#else
-            category = {SCA, CRAFTING, FEATURE},
-            desc = "Enable tpa command"
-            //#endif
-    )
-    public static boolean commandTpa = false;
-
-    @Rule(
-            //#if MC>=11900
-            //$$ categories = {SCA, TPA, FEATURE, SURVIVAL}
-            //#else
-            category = {SCA, TPA, FEATURE, SURVIVAL},
-            desc = "Set tpa request expiration time in seconds"
-            //#endif
-    )
-    public static int commandTpaTimeout = 5 * 60;
-
-    @Rule(
-            //#if MC>=11900
-            //$$ categories = {SCA, TPA, FEATURE, SURVIVAL}
-            //#else
-            category = {SCA, TPA, FEATURE, SURVIVAL},
-            desc = "Set the time in seconds to wait before teleport occurs"
-            //#endif
-    )
-    public static int commandTpaTeleportWaits = 5;
 }

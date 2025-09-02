@@ -3,14 +3,9 @@ package dev.skydynamic.carpet;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
 
-//#if MC>=11900
-//$$ import carpet.api.settings.CarpetRule;
-//$$ import carpet.api.settings.RuleHelper;
-//$$ import carpet.script.Module;
-//#else
-import carpet.settings.ParsedRule;
-import carpet.script.bundled.BundledModule;
-//#endif
+import carpet.api.settings.CarpetRule;
+import carpet.api.settings.RuleHelper;
+import carpet.script.Module;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Lists;
@@ -19,23 +14,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-//#if MC>=11900
-import com.mojang.brigadier.CommandDispatcher;
 import dev.skydynamic.carpet.api.tools.text.ComponentTranslate;
-//#else
-//$$ import dev.skydynamic.carpet.api.tools.text.OldComponentTranslate;
-//#endif
-import dev.skydynamic.carpet.command.TpaManager;
 import dev.skydynamic.carpet.utils.recipes.CraftingRule;
 
 import dev.skydynamic.carpet.utils.translate.TranslateUtil;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.ReloadCommand;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.util.WorldSavePath;
+import net.minecraft.server.commands.ReloadCommand;
 
+import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.world.level.storage.LevelResource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -68,30 +56,16 @@ public class ScaServer implements CarpetExtension, ModInitializer {
     }
 
     public static void loadExtension() {
-
         CarpetServer.manageExtension(new ScaServer());
     }
-    //#if MC >= 11900
-    //$$@Override
-    //$$    public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher, net.minecraft.command.CommandRegistryAccess commandBuildContext) {
-    //$$        TpaManager.registerCommand(dispatcher);
-    //$$    }
-    //#else
-    @Override
-    public void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {
-        TpaManager.registerCommand(dispatcher);
-    }
-    //#endif
+
     @Override
     public void onInitialize() {
-
         ScaServer.loadExtension();
-
     }
 
     @Override
     public void onGameStarted() {
-
         LOGGER.info(MOD_ID + " " + "v" + get_version() + "载入成功");
         LOGGER.info("开源链接：https://github.com/SkyDynamic/SkyDynamic-Carpet-Addition");
         CarpetServer.settingsManager.parseSettingsClass(ScaSetting.class);
@@ -106,16 +80,12 @@ public class ScaServer implements CarpetExtension, ModInitializer {
     @Override
     public Map<String, String> canHasTranslations(String lang) {
         TranslateUtil.handleResourceReload(lang);
-        //#if MC>=11900
         return ComponentTranslate.getTranslationFromResourcePath(lang);
-        //#else
-        //$$ return OldComponentTranslate.getTranslationFromResourcePath(lang);
-        //#endif
     }
 
     @Override
     public void onServerLoadedWorlds(MinecraftServer server) {
-        String datapackPath = server.getSavePath(WorldSavePath.DATAPACKS).toString();
+        String datapackPath = server.getWorldPath(LevelResource.DATAPACK_DIR).toString();
         if (Files.isDirectory(new File(datapackPath + "/Sca_flexibleData/").toPath())) {
             try {
                 FileUtils.deleteDirectory(new File(datapackPath + "/Sca_flexibleData/"));
@@ -155,47 +125,31 @@ public class ScaServer implements CarpetExtension, ModInitializer {
         }
         reload();
         if (isFirstLoad) {
-            //#if MC>=11900
-            //$$server.getCommandManager().executeWithPrefix(server.getCommandSource(), "/datapack enable \"file/ScaData\"");
-            //#else
-            server.getCommandManager().execute(server.getCommandSource(), "/datapack enable \"file/ScaData\"");
-            //#endif
+            server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), "/datapack enable \"file/ScaData\"");
         }
     }
 
     private void registerCraftingRule(String ruleName, String[] recipes, String recipeNamespace, String dataPath) {
-        updateCraftingRule(CarpetServer.settingsManager.getRule(ruleName),recipes,recipeNamespace,dataPath,ruleName);
-        CarpetServer.settingsManager.addRuleObserver
-                ((source, rule, s) -> {
-                    //#if MC>=11900
-                    //$$if (rule.name().equals(ruleName)) {
-                    //$$    updateCraftingRule(rule, recipes, recipeNamespace, dataPath, ruleName);
-                    //$$    reload();
-                    //$$}
-                    //#else
-                    if (rule.name.equals(ruleName)) {
-                        updateCraftingRule(rule, recipes, recipeNamespace, dataPath, ruleName);
-                        reload();
-                    }
-                    //#endif
-                });
+        updateCraftingRule(CarpetServer.settingsManager.getCarpetRule(ruleName),recipes,recipeNamespace,dataPath,ruleName);
+        CarpetServer.settingsManager.registerRuleObserver(
+            ((source, rule, s) -> {
+                if (rule.name().equals(ruleName)) {
+                    updateCraftingRule(rule, recipes, recipeNamespace, dataPath, ruleName);
+                    reload();
+                }
+            }));
     }
 
     private void updateCraftingRule(
-            ParsedRule<?> rule,
+            CarpetRule<?> rule,
             String[] recipes,
             String recipeNamespace,
             String datapackPath,
             String ruleName
     ) {
         ruleName = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, ruleName);
-        //#if MC>=11900
-        //$$if (rule.type() == String.class) {
-        //$$String value = RuleHelper.toRuleString(rule.value());
-        //#else
-        if (rule.type == String.class) {
-            String value = rule.getAsString();
-            //#endif
+        if (rule.type() == String.class) {
+        String value = RuleHelper.toRuleString(rule.value());
             List<String> installedRecipes = Lists.newArrayList();
             try {
                 Stream<Path> fileStream = Files.list(new File(datapackPath + recipeNamespace, "recipes").toPath());
@@ -243,13 +197,9 @@ public class ScaServer implements CarpetExtension, ModInitializer {
                 copyRecipes(tempRecipes.toArray(new String[0]), recipeNamespace, datapackPath, ruleName + "_" + value);
             }
         }
-        //#if MC>=11900
-        //$$else if (rule.type() == Integer.class && (Integer) rule.value() > 0) {
-        //#else
-        else if (rule.type == int.class && (Integer) rule.get() > 0) {
-            //#endif
+        else if (rule.type() == Integer.class && (Integer) rule.value() > 0) {
             copyRecipes(recipes, recipeNamespace, datapackPath, ruleName);
-            int value = (Integer) rule.get();
+            int value = (Integer) rule.value();
             for (String recipeName : recipes) {
                 String filePath = datapackPath + recipeNamespace + "/recipes/" + recipeName;
                 JsonObject jsonObject = readJson(filePath);
@@ -258,11 +208,7 @@ public class ScaServer implements CarpetExtension, ModInitializer {
                 writeJson(jsonObject, filePath);
             }
         }
-        //#if MC>=11900
-        //$$else if (rule.type() == Boolean.class && RuleHelper.getBooleanValue(rule)) {
-        //#else
-        else if (rule.type == boolean.class && rule.getBoolValue()) {
-            //#endif
+        else if (rule.type() == Boolean.class && RuleHelper.getBooleanValue(rule)) {
             copyRecipes(recipes, recipeNamespace, datapackPath, ruleName);
         } else {
             deleteRecipes(recipes, recipeNamespace, datapackPath, ruleName, true);
@@ -325,16 +271,16 @@ public class ScaServer implements CarpetExtension, ModInitializer {
     }
 
     private void reload() {
-        ResourcePackManager resourcePackManager = minecraftServer.getDataPackManager();
-        resourcePackManager.scanPacks();
-        Collection<String> collection = Lists.newArrayList(resourcePackManager.getEnabledNames());
+        PackRepository packRepository = minecraftServer.getPackRepository();
+        packRepository.reload();
+        Collection<String> collection = Lists.newArrayList(packRepository.getSelectedIds());
         collection.add("ScaData");
 
-        ReloadCommand.tryReloadDataPacks(collection, minecraftServer.getCommandSource());
+        ReloadCommand.reloadPacks(collection, minecraftServer.createCommandSourceStack());
     }
 
     private void copyFile(String resourcePath, String targetPath) {
-        InputStream source = BundledModule.class.getClassLoader().getResourceAsStream(resourcePath);
+        InputStream source = Module.class.getClassLoader().getResourceAsStream(resourcePath);
         Path target = new File(targetPath).toPath();
 
         try {
@@ -346,7 +292,6 @@ public class ScaServer implements CarpetExtension, ModInitializer {
         }
     }
 
-    //#if MC>=11900
     private static JsonObject readJson(String filePath) {
         try {
             FileReader reader = new FileReader(filePath);
@@ -356,18 +301,6 @@ public class ScaServer implements CarpetExtension, ModInitializer {
         }
         return null;
     }
-    //#else
-    //$$ private static JsonObject readJson(String filePath) {
-    //$$    JsonParser jsonParser = new JsonParser();
-    //$$    try {
-    //$$        FileReader reader = new FileReader(filePath);
-    //$$        return jsonParser.parse(reader).getAsJsonObject();
-    //$$    } catch (FileNotFoundException e) {
-    //$$        e.printStackTrace();
-    //$$    }
-    //$$    return null;
-    //$$}
-    //#endif
 
     private static void writeJson(JsonObject jsonObject, String filePath) {
         try {
