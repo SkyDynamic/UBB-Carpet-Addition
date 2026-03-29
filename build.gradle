@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.11-SNAPSHOT'
+	id 'net.fabricmc.fabric-loom' version '1.15-SNAPSHOT'
 }
 
 repositories {
@@ -23,10 +23,10 @@ configurations {
 
 dependencies {
 	implementation 'org.yaml:snakeyaml:2.0'
+
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings loom.officialMojangMappings()
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "carpet:fabric-carpet:${project.carpet_core_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "carpet:fabric-carpet:${project.carpet_core_version}"
 }
 
 loom {
@@ -50,7 +50,7 @@ loom {
 	}
 }
 
-JavaVersion MIXIN_COMPATIBILITY_LEVEL = JavaVersion.VERSION_21
+JavaVersion MIXIN_COMPATIBILITY_LEVEL = JavaVersion.VERSION_25
 
 String versionSuffix = ''
 
@@ -58,7 +58,10 @@ String fullModVersion = project.mod_version + versionSuffix
 
 version = 'v' + fullModVersion
 group = project.maven_group
-archivesBaseName = project.archives_base_name + '-mc' + project.minecraft_version
+
+base {
+    archivesName = project.archives_base_name + '-mc' + project.minecraft_version
+}
 
 processResources {
 	inputs.property "version", fullModVersion
@@ -69,7 +72,7 @@ processResources {
 				"name": project.mod_name,
 				"version": fullModVersion,
 				"carpet_dependency": project.carpet_dependency,
-				"minecraft_dependency": project.minecraft_dependency,
+				"minecraft_dependency": project.minecraft_version,
 		]
 		expand valueMap
 	}
@@ -87,8 +90,8 @@ tasks.withType(JavaCompile) {
 
 java {
 	withSourcesJar()
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {

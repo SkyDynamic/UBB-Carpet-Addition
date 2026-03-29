@@ -1,16 +1,11 @@
 package dev.skydynamic.carpet.function;
 
 
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.TicketType;
-import net.minecraft.world.level.ChunkPos;
-
-import java.util.Comparator;
 
 public class BlockChunkLoader {
-    public static final TicketType<ChunkPos>
-            BLOCK_LOADER = TicketType.create
-            (
-                    "block_loader", Comparator.comparingLong(ChunkPos::toLong),
-                    300
-            );
+    public static final TicketType BLOCK_LOADER = Registry.register(
+        BuiltInRegistries.TICKET_TYPE, "block_loader",new TicketType(300L, 14));
 }

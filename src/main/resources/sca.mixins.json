@@ -8,7 +8,6 @@
     "NoteBlockMixin",
     "PistonBaseBlockMixin",
     "PlayerListMixin",
-    "ServerPlayerNetworkHandlerMixin",
     "ThrownEnderpearlMixin"
   ],
   "injectors": {

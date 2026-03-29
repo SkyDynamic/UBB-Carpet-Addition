@@ -28,8 +28,8 @@ public abstract class PistonBaseBlockMixin {
             BlockState pistonBlock = level.getBlockState(blockPos.above());
             if ((Objects.equals(ScaSetting.pistonBlockChunkLoader, "bone_block") || Objects.equals(ScaSetting.pistonBlockChunkLoader, "all"))
                 && pistonBlock.is(Blocks.BONE_BLOCK)) {
-                ChunkPos chunkPos = new ChunkPos(blockPos.relative(direction));
-                ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+                ChunkPos chunkPos = ChunkPos.containing(blockPos.relative(direction));
+                ((ServerLevel) level).getChunkSource().addTicketWithRadius(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3);
             }
         }
 
@@ -38,8 +38,8 @@ public abstract class PistonBaseBlockMixin {
             BlockState pistonBlock = level.getBlockState(blockPos.below());
             if ((Objects.equals(ScaSetting.pistonBlockChunkLoader, "bedrock") || Objects.equals(ScaSetting.pistonBlockChunkLoader, "all"))
                 && pistonBlock.is(Blocks.BEDROCK)) {
-                ChunkPos chunkPos = new ChunkPos(blockPos.relative(direction));
-                ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+                ChunkPos chunkPos = ChunkPos.containing(blockPos.relative(direction));
+                ((ServerLevel) level).getChunkSource().addTicketWithRadius(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3);
             }
         }
     }

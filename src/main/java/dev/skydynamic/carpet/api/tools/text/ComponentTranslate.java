@@ -2,6 +2,7 @@ package dev.skydynamic.carpet.api.tools.text;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.Strictness;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.IOUtils;
 
@@ -24,7 +25,7 @@ public class ComponentTranslate {
         } catch (IOException e) {
             return Collections.emptyMap();
         }
-        Gson gson = new GsonBuilder().setLenient().create();
+        Gson gson = new GsonBuilder().setStrictness(Strictness.LENIENT).create();
         return gson.fromJson(jsonData, new TypeToken<Map<String, String>>() {}.getType());
     }
 }

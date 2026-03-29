@@ -1,8 +1,8 @@
 package dev.skydynamic.carpet;
 
-import dev.skydynamic.carpet.utils.recipes.CraftingRule;
-import static dev.skydynamic.carpet.settings.ScaRuleCategory.*;
 import carpet.api.settings.Rule;
+
+import static dev.skydynamic.carpet.settings.ScaRuleCategory.*;
 
 public class ScaSetting{
 
@@ -24,18 +24,7 @@ public class ScaSetting{
     public static String pistonBlockChunkLoader = "OFF";
 
     @Rule(
-        categories = {SCA, FEATURE, SCA_CHUNKLOADER}
-    )
-    public static boolean pearlTickets = false;
-
-    @Rule(
         categories = {SCA, FEATURE, SURVIVAL}
     )
     public static boolean softDeepslate = false;
-
-    @Rule(
-        categories = {SCA, CRAFTING, SURVIVAL}
-    )
-    @CraftingRule(recipes = "nongfu_spring.json")
-    public static boolean craftingNongfuSpring = false;
 }

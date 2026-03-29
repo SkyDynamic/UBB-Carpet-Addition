@@ -22,24 +22,25 @@ import java.util.Objects;
 public abstract class NoteBlockMixin {
     @Inject(at = @At("HEAD"), method = "playNote")
     private void playNoteMixin(
-        Entity entity, BlockState blockState, Level level, BlockPos blockPos, CallbackInfo ci) {
+        Entity source, BlockState state, Level level, BlockPos blockPos, CallbackInfo ci
+    ) {
         if (Objects.equals(ScaSetting.noteBlockChunkLoader, "note_block") && !level.isClientSide()) {
-            ChunkPos chunkPos = new ChunkPos(blockPos);
-            ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+            ChunkPos chunkPos = ChunkPos.containing(blockPos);
+            ((ServerLevel) level).getChunkSource().addTicketWithRadius(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3);
         }
         if (Objects.equals(ScaSetting.noteBlockChunkLoader, "bone_block") && !level.isClientSide()) {
             BlockState noteBlock = level.getBlockState(blockPos.above());
             if (Objects.equals(ScaSetting.noteBlockChunkLoader, "bone_block") && noteBlock.is(Blocks.BONE_BLOCK)) {
-                ChunkPos chunkPos = new ChunkPos(blockPos.above());
-                ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+                ChunkPos chunkPos = ChunkPos.containing(blockPos.above());
+                ((ServerLevel) level).getChunkSource().addTicketWithRadius(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3);
             }
         }
         if (Objects.equals(ScaSetting.noteBlockChunkLoader, "wither_skeleton_skull") && !level.isClientSide()) {
             BlockState noteBlock = level.getBlockState(blockPos.below());
             if (Objects.equals(ScaSetting.noteBlockChunkLoader, "wither_skeleton_skull") && (noteBlock.is(Blocks.WITHER_SKELETON_SKULL))
                 || (noteBlock.is(Blocks.WITHER_SKELETON_WALL_SKULL))) {
-                ChunkPos chunkPos = new ChunkPos(blockPos.below());
-                ((ServerLevel) level).getChunkSource().addRegionTicket(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3, chunkPos);
+                ChunkPos chunkPos = ChunkPos.containing(blockPos.below());
+                ((ServerLevel) level).getChunkSource().addTicketWithRadius(BlockChunkLoader.BLOCK_LOADER, chunkPos, 3);
             }
         }
     }
